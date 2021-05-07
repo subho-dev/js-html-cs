@@ -1,2 +1,2 @@
-# js-html-cs
-Created with CodeSandbox
+# soumitavalue 
+This is my first project in HTML,CSS, JavaScript and Typescript
