@@ -59,7 +59,6 @@
           if (localStorage.getItem(dm)) {
             entries = parseInt(localStorage.getItem(dm));
             var temp = entries + val;
-            // console.log(temp)
             localStorage.setItem(dm, temp);
           } else {
             localStorage.setItem(dm, val);
@@ -100,9 +99,89 @@
           document.getElementById("vote").innerHTML += h;
         }
         var x = document.getElementById("vote");
+        var y = document.getElementById("spam");
         if (x.style.display === "none") {
           x.style.display = "block";
+          y.style.display= "none"
         } else {
+          x.style.display = "none";
+          x.style.display = "none";
+        }
+      }
+      var arr2 = JSON.parse(localStorage.getItem("url_ls"));
+      for (i = 0; i < n; i++) {
+        var temp = extractRootDomain(arr2[i]);
+        var dm= temp +".spam"
+        localStorage.removeItem(dm);
+      }
+      for (i = 0; i < n; i++) {
+        var fl = "flg[" + i.toString() + "]";
+        var val = 0;
+        if (localStorage.getItem(fl)) {
+          var temp = extractRootDomain(arr2[i]);
+          var dm = temp + ".spam"
+          val = parseInt(localStorage.getItem(fl));
+          if (localStorage.getItem(dm)) {
+            entries = parseInt(localStorage.getItem(dm));
+            var temp = entries + val;
+            localStorage.setItem(dm, temp);
+          } else {
+            localStorage.setItem(dm, val);
+          }
+        }
+      }
+      var fa = [];
+      function sort_by_spam() {
+        var retrievedData = localStorage.getItem("n");
+        var n = parseInt(JSON.parse(retrievedData)[0]);
+        var arr2 = JSON.parse(localStorage.getItem("url_ls"));
+        var h = "";
+        for (i = 0; i < n; i++) {
+          var temp = extractRootDomain(arr2[i]);
+          var dm = temp + ".spam"
+          if (fa.includes(dm)) {
+            continue;
+          } else {
+            for (j = 0; j < n; j++) {
+              var temporary = extractRootDomain(arr2[j]) 
+              var tem = temporary + ".spam";
+              if (fa.includes(tem)) {
+                continue;
+              } else {
+                if (
+                  parseInt(localStorage.getItem(tem)) >
+                  parseInt(localStorage.getItem(dm))
+                ) {
+                  dm = tem;
+                }
+              }
+            }
+            fa.push(dm);
+            if (dm) {
+              var p=(dm.split('.').slice(0, -1));
+              var name_of_domain=""
+              for(k=0;k<p.length;k++){
+                  if((k+1)!=p.length){
+                  name_of_domain+=p[k]+"."
+                  }
+                  else{
+                    name_of_domain+=p[k]
+                  }
+              }
+              h += "<p>" + name_of_domain + ": " + localStorage.getItem(dm) + " Flagged</p>";
+            }
+          }
+        }
+        if (document.getElementById("spam")) {
+          document.getElementById("spam").innerHTML += h;
+        }
+        var x = document.getElementById("spam");
+        var y = document.getElementById("vote");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+          y.style.display= "none"
+        } else {
+          x.style.display = "none";
           x.style.display = "none";
         }
       }
